@@ -72,7 +72,7 @@ export function ReviewList() {
                   </button>
                 )}
                 <a
-                  href={`/dashboard/all-reviews#review-${review.id}`}
+                  href={`/all-reviews#review-${review.id}`}
                   className="text-[#1F77B4] hover:underline text-sm"
                 >
                   Read More

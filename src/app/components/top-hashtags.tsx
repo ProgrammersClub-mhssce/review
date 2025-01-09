@@ -40,7 +40,7 @@ export function TopHashtags() {
         <div className="flex flex-wrap gap-2">
           {hashtags.map((hashtag) => (
             <Badge key={hashtag.tag} variant="secondary" className="bg-[#9467BD] text-white">
-              #{hashtag.tag} ({hashtag.count})
+              {hashtag.tag} ({hashtag.count})
             </Badge>
           ))}
         </div>
