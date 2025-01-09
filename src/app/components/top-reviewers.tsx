@@ -22,7 +22,7 @@ export function TopReviewers() {
   useEffect(() => {
     fetch('/data/reviews.json')
       .then(response => response.json())
-      .then(jsonData => {
+      .then((jsonData: { reviews: Review[] }) => {
         const reviewerStats = jsonData.reviews.reduce((acc: { [key: number]: { total: number, count: number } }, review: Review) => {
           if (!acc[review.id]) {
             acc[review.id] = { total: 0, count: 0 }
@@ -31,9 +31,9 @@ export function TopReviewers() {
           acc[review.id].count += 1
           return acc
         }, {})
-
+        
         const topReviewers = Object.entries(reviewerStats)
-          .map(([id, stats]) => ({
+          .map(([id, stats]: [string, { total: number, count: number }]) => ({
             id: Number(id),
             name: `Reviewer ${id}`,
             avatar: `/avatars/avatar${id}.png`,
@@ -41,6 +41,7 @@ export function TopReviewers() {
           }))
           .sort((a, b) => b.averageRating - a.averageRating)
           .slice(0, 5)
+        
 
         setReviewers(topReviewers)
       })

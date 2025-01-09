@@ -45,20 +45,21 @@ export function AllReviews() {
                     <span>{review.rating}</span>
                   </Badge>
                   <Badge 
-                    variant={review.sentiment === "positive" ? "success" : review.sentiment === "negative" ? "destructive" : "outline"} 
-                    className="flex items-center space-x-1"
-                  >
-                    {review.sentiment === "positive" ? <ThumbsUp className="h-4 w-4" /> : 
-                     review.sentiment === "negative" ? <ThumbsDown className="h-4 w-4" /> : 
-                     <Minus className="h-4 w-4" />}
-                    <span>{review.sentiment}</span>
-                  </Badge>
+  variant={review.sentiment === "positive" ? "secondary" : review.sentiment === "negative" ? "destructive" : "outline"} 
+  className="flex items-center space-x-1"
+>
+  {review.sentiment === "positive" ? <ThumbsUp className="h-4 w-4" /> : 
+   review.sentiment === "negative" ? <ThumbsDown className="h-4 w-4" /> : 
+   <Minus className="h-4 w-4" />}
+  <span>{review.sentiment}</span>
+</Badge>
+
                 </div>
               </div>
               <p className="text-[#333333] mb-4">{review.content}</p>
               {review.images && (
                 <button
-                  onClick={() => setSelectedImage(review.images)}
+                  onClick={() => review.images && setSelectedImage(review.images)}
                   className="px-4 py-2 bg-[#1F77B4] text-white rounded-md text-sm hover:bg-[#1a6698] transition-colors"
                 >
                   View Photo

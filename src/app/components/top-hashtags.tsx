@@ -21,10 +21,11 @@ export function TopHashtags() {
             return acc
           }, {})
 
-        const sortedHashtags = Object.entries(hashtagCounts)
+          const sortedHashtags = (Object.entries(hashtagCounts) as [string, number][])
           .sort(([, a], [, b]) => b - a)
           .slice(0, 10)
-          .map(([tag, count]) => ({ tag, count: count as number }))
+          .map(([tag, count]) => ({ tag, count }))
+        
 
         setHashtags(sortedHashtags)
       })

@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Star, MessageSquare, TrendingUp, Award, Clock } from 'lucide-react'
+import { Star,TrendingUp, Award, Clock } from 'lucide-react'
 
 interface Review {
   rating: number
   sentiment: string
   hashtags: string[]
+  content: string; // Added content property
+  id: number; // Added id property
 }
 
 export function OverallStats() {
@@ -23,6 +25,7 @@ export function OverallStats() {
       .then(response => response.json())
       .then(jsonData => {
         const reviews = jsonData.reviews
+        const totalReviews = reviews.length
         const totalRating = reviews.reduce((sum: number, review: Review) => sum + review.rating, 0)
         const averageRating = totalRating / totalReviews
         const positiveReviews = reviews.filter((review: Review) => review.sentiment === 'positive').length
@@ -33,7 +36,7 @@ export function OverallStats() {
             acc[tag] = (acc[tag] || 0) + 1
             return acc
           }, {})
-        const topHashtag = Object.entries(hashtagCounts).sort((a, b) => b[1] - a[1])[0][0]
+        const topHashtag = (Object.entries(hashtagCounts) as [string, number][]).sort((a, b) => b[1] - a[1])[0][0]
 
         const totalReviewLength = reviews.reduce((sum: number, review: Review) => sum + review.content.length, 0)
         const averageReviewLength = totalReviewLength / totalReviews
@@ -53,7 +56,7 @@ export function OverallStats() {
         <CardTitle className="text-[#1F77B4] text-xl font-semibold">Overall Statistics</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatBox icon={Star} label="Average Rating" value={stats.averageRating} />
           <StatBox icon={TrendingUp} label="Positive Reviews" value={`${stats.positivePercentage}%`} />
           <StatBox icon={Award} label="Top Hashtag" value={`#${stats.topHashtag}`} />
@@ -63,13 +66,15 @@ export function OverallStats() {
     </Card>
   )
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function StatBox({ icon: Icon, label, value }: { icon: any; label: string; value: string | number }) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center">
-      <Icon className="h-8 w-8 mb-2 text-[#1F77B4]" />
-      <p className="text-sm font-medium text-gray-600 mb-1">{label}</p>
-      <p className="text-xl font-bold text-[#333333]">{value}</p>
+    <div className="bg-white p-6 rounded-lg shadow-md flex items-center space-x-4">
+      <Icon className="h-10 w-10 text-[#1F77B4]" />
+      <div>
+        <p className="text-sm font-medium text-gray-600">{label}</p>
+        <p className="text-2xl font-bold text-[#333333]">{value}</p>
+      </div>
     </div>
   )
 }
