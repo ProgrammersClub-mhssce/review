@@ -59,7 +59,7 @@ export function AllReviews() {
               <p className="text-[#333333] mb-4">{review.content}</p>
               {review.images && (
                 <button
-                  onClick={() => review.images && setSelectedImage(review.images)}
+                  onClick={() => setSelectedImage(review.images || '')}
                   className="px-4 py-2 bg-[#1F77B4] text-white rounded-md text-sm hover:bg-[#1a6698] transition-colors"
                 >
                   View Photo
